@@ -212,6 +212,34 @@ def adjust_p_values(p_values):
     return adjusted
 
 
+def round_decimal(value, places=6):
+    """Round a numeric output to a stable number of decimal places."""
+    return round(value, places)
+
+
+def round_significant(value, digits=6):
+    """Round a numeric output to a stable number of significant figures."""
+    return float(f"{value:.{digits}g}")
+
+
+def result_for_output(result):
+    """Return a copy with deterministic precision for generated files."""
+    rounded = dict(result)
+    for field in (
+        "responder_median_pct",
+        "nonresponder_median_pct",
+        "median_difference_pct_points",
+        "mann_whitney_u",
+        "rank_biserial_effect",
+    ):
+        if field in rounded:
+            rounded[field] = round_decimal(rounded[field])
+    for field in ("p_value", "fdr_q_value"):
+        if field in rounded:
+            rounded[field] = round_significant(rounded[field])
+    return rounded
+
+
 def run_tests(grouped):
     results = []
     for population in POPULATION_ORDER:
@@ -245,7 +273,7 @@ def run_tests(grouped):
 
 
 def run_timepoint_tests(grouped):
-    """Compare responders and non-responders separately at each timepoint."""
+    """Compare groups at each visit and adjust across these 15 tests."""
     results = []
     for population in POPULATION_ORDER:
         for timepoint in (0, 7, 14):
@@ -270,6 +298,11 @@ def run_timepoint_tests(grouped):
                     "rank_biserial_effect": effect_size,
                 }
             )
+    adjusted = adjust_p_values([result["p_value"] for result in results])
+    for result, q_value in zip(results, adjusted):
+        result["significant_p_0_05"] = result["p_value"] < ALPHA
+        result["fdr_q_value"] = q_value
+        result["significant_fdr_0_05"] = q_value < ALPHA
     return results
 
 
@@ -293,12 +326,13 @@ def write_results(results):
             output_file, fieldnames=fieldnames, lineterminator="\n"
         )
         writer.writeheader()
-        writer.writerows(results)
+        writer.writerows(result_for_output(result) for result in results)
 
 
 def write_longitudinal_results(timepoint_results, change_results):
     fieldnames = (
         "analysis",
+        "fdr_family",
         "timepoint",
         "population",
         "responder_subjects",
@@ -321,53 +355,61 @@ def write_longitudinal_results(timepoint_results, change_results):
         writer.writeheader()
 
         for result in timepoint_results:
+            output = result_for_output(result)
             writer.writerow(
                 {
                     "analysis": "timepoint",
-                    "timepoint": result["timepoint"],
-                    "population": result["population"],
-                    "responder_subjects": result["responder_subjects"],
-                    "nonresponder_subjects": result["nonresponder_subjects"],
-                    "responder_median_pct": result["responder_median_pct"],
-                    "nonresponder_median_pct": result[
+                    "fdr_family": "15 exploratory timepoint tests",
+                    "timepoint": output["timepoint"],
+                    "population": output["population"],
+                    "responder_subjects": output["responder_subjects"],
+                    "nonresponder_subjects": output["nonresponder_subjects"],
+                    "responder_median_pct": output["responder_median_pct"],
+                    "nonresponder_median_pct": output[
                         "nonresponder_median_pct"
                     ],
-                    "median_difference_pct_points": result[
+                    "median_difference_pct_points": output[
                         "median_difference_pct_points"
                     ],
-                    "mann_whitney_u": result["mann_whitney_u"],
-                    "p_value": result["p_value"],
-                    "rank_biserial_effect": result[
+                    "mann_whitney_u": output["mann_whitney_u"],
+                    "p_value": output["p_value"],
+                    "fdr_q_value": output["fdr_q_value"],
+                    "rank_biserial_effect": output[
                         "rank_biserial_effect"
+                    ],
+                    "significant_fdr_0_05": output[
+                        "significant_fdr_0_05"
                     ],
                 }
             )
 
         for result in change_results:
+            output = result_for_output(result)
             writer.writerow(
                 {
                     "analysis": "day14_minus_day0",
-                    "population": result["population"],
-                    "responder_subjects": result["responder_subjects"],
-                    "nonresponder_subjects": result[
+                    "fdr_family": "5 pre-specified change tests",
+                    "population": output["population"],
+                    "responder_subjects": output["responder_subjects"],
+                    "nonresponder_subjects": output[
                         "nonresponder_subjects"
                     ],
-                    "responder_median_pct": result[
+                    "responder_median_pct": output[
                         "responder_median_pct"
                     ],
-                    "nonresponder_median_pct": result[
+                    "nonresponder_median_pct": output[
                         "nonresponder_median_pct"
                     ],
-                    "median_difference_pct_points": result[
+                    "median_difference_pct_points": output[
                         "median_difference_pct_points"
                     ],
-                    "mann_whitney_u": result["mann_whitney_u"],
-                    "p_value": result["p_value"],
-                    "fdr_q_value": result["fdr_q_value"],
-                    "rank_biserial_effect": result[
+                    "mann_whitney_u": output["mann_whitney_u"],
+                    "p_value": output["p_value"],
+                    "fdr_q_value": output["fdr_q_value"],
+                    "rank_biserial_effect": output[
                         "rank_biserial_effect"
                     ],
-                    "significant_fdr_0_05": result[
+                    "significant_fdr_0_05": output[
                         "significant_fdr_0_05"
                     ],
                 }

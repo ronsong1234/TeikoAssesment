@@ -58,7 +58,16 @@ def write_frequency_table(rows):
     with OUTPUT_PATH.open("w", newline="", encoding="utf-8") as output_file:
         writer = csv.writer(output_file, lineterminator="\n")
         writer.writerow(columns)
-        writer.writerows(tuple(row[column] for column in columns) for row in rows)
+        for row in rows:
+            writer.writerow(
+                (
+                    row["sample"],
+                    row["total_count"],
+                    row["population"],
+                    row["count"],
+                    f"{row['percentage']:.6f}",
+                )
+            )
 
 
 def main():

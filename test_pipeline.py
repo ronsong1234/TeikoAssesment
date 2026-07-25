@@ -57,7 +57,7 @@ class PipelineTests(unittest.TestCase):
         self.assertAlmostEqual(p_value, 0.08085559837005228)
         self.assertEqual(effect, -1.0)
 
-    def test_b_cell_change_survives_fdr_correction(self):
+    def test_current_data_b_cell_change_q_value_is_below_0_05(self):
         _timepoints, changes = load_longitudinal_frequencies()
         results = run_tests(changes)
         b_cell = next(

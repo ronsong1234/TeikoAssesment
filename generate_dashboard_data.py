@@ -20,6 +20,10 @@ DATABASE_PATH = ROOT_DIR / "cell-count.db"
 OUTPUT_PATH = ROOT_DIR / "dashboard" / "dashboard-data.json"
 
 
+def round_significant(value, digits=6):
+    return float(f"{value:.{digits}g}")
+
+
 def get_overview(connection):
     return {
         "projects": connection.execute(
@@ -58,7 +62,7 @@ def get_sample_frequencies(connection):
                     current_sample,
                     current_total,
                     [
-                        [values[name][0], round(values[name][1], 4)]
+                        [values[name][0], round(values[name][1], 6)]
                         for name in POPULATION_ORDER
                     ],
                 ]
@@ -75,7 +79,7 @@ def get_sample_frequencies(connection):
                 current_sample,
                 current_total,
                 [
-                    [values[name][0], round(values[name][1], 4)]
+                    [values[name][0], round(values[name][1], 6)]
                     for name in POPULATION_ORDER
                 ],
             ]
@@ -119,8 +123,8 @@ def get_response_analysis():
                 "difference": round(
                     result["median_difference_pct_points"], 4
                 ),
-                "p_value": result["p_value"],
-                "q_value": result["fdr_q_value"],
+                "p_value": round_significant(result["p_value"]),
+                "q_value": round_significant(result["fdr_q_value"]),
                 "effect": round(result["rank_biserial_effect"], 4),
                 "nominal_significant": result["significant_p_0_05"],
                 "fdr_significant": result["significant_fdr_0_05"],
@@ -136,7 +140,8 @@ def get_response_analysis():
             "nonresponder_median": round(
                 result["nonresponder_median_pct"], 4
             ),
-            "p_value": result["p_value"],
+            "p_value": round_significant(result["p_value"]),
+            "q_value": round_significant(result["fdr_q_value"]),
         }
         for result in timepoint_results
     ]
@@ -149,8 +154,8 @@ def get_response_analysis():
             "nonresponder_median": round(
                 result["nonresponder_median_pct"], 4
             ),
-            "p_value": result["p_value"],
-            "q_value": result["fdr_q_value"],
+            "p_value": round_significant(result["p_value"]),
+            "q_value": round_significant(result["fdr_q_value"]),
             "fdr_significant": result["significant_fdr_0_05"],
         }
         for result in change_results

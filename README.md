@@ -149,9 +149,15 @@ patient's day-14-minus-day-0 change.
 
 No population differs at baseline. Over 14 days, responders have a median
 B-cell change of -1.00 percentage point, compared with +0.15 in
-non-responders. This difference has `p = 0.0062` and remains significant after
-FDR correction (`q = 0.031`). This supports B-cell change as a tentative
-on-treatment response marker, not a pretreatment predictor.
+non-responders. The day-0-to-day-14 change analysis was pre-specified as the
+primary family of five population tests; within that family, the B-cell
+difference has `p = 0.0062` and remains significant after FDR correction
+(`q = 0.031`). The 15 per-timepoint comparisons are exploratory descriptions
+of when divergence emerges rather than independent confirmations. Their
+reported q-values are corrected within that exploratory family of 15 tests.
+Under a blanket correction across all 20 longitudinal tests, nothing reaches
+significance; the B-cell change has `q = 0.124`. This supports B-cell change as
+a tentative on-treatment response marker, not a pretreatment predictor.
 
 The five percentages sum to 100%, so they are compositional rather than
 independent: a decrease in one population mechanically increases the relative

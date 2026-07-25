@@ -3,5 +3,6 @@ __pycache__/
 .DS_Store
 
 cell-count.db.tmp
+cell-count.db
 dashboard-dev.*
 responder_boxplots*.png
