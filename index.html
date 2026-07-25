@@ -358,7 +358,10 @@
       const changes = data.response_analysis.change_results;
       const timepointRow = population => {
         const rows = timepoints.filter(row => row.population === population);
-        return [0, 7, 14].map(day => pvalue(rows.find(row => row.timepoint === day).p_value));
+        return [0, 7, 14].map(day => {
+          const row = rows.find(item => item.timepoint === day);
+          return `${pvalue(row.p_value)} / ${pvalue(row.q_value)}`;
+        });
       };
       content.innerHTML = `
         <div class="eyebrow">Part 3</div>
@@ -378,13 +381,13 @@
         <p class="note">CD4 T cells are nominally significant (p=0.012) but not significant after FDR correction (q=0.062).</p>
 
         <h3 class="subheading">Longitudinal extension</h3>
-        <p class="intro">Separating the visits avoids mixing baseline and treatment-emergent effects. Baseline does not distinguish responders from non-responders.</p>
+        <p class="intro">Separating the visits avoids mixing baseline and treatment-emergent effects. The 15 per-timepoint tests are exploratory; their q-values are corrected within that family. Baseline does not distinguish responders from non-responders.</p>
         <div class="finding">
-          <strong>B-cell change is significant after FDR correction.</strong>
-          From day 0 to day 14, the responder median changes by -1.00 percentage point versus +0.15 in non-responders (p=0.006, q=0.031).
+          <strong>B-cell change is significant within the pre-specified family of five change tests.</strong>
+          From day 0 to day 14, the responder median changes by -1.00 percentage point versus +0.15 in non-responders (p=0.006, q=0.031). Under a blanket correction across all 20 longitudinal tests, it does not remain significant (q=0.124).
         </div>
         <div class="table-wrap"><table>
-          <thead><tr><th>Population</th><th>Day 0 p</th><th>Day 7 p</th><th>Day 14 p</th></tr></thead>
+          <thead><tr><th>Population</th><th>Day 0 p / q</th><th>Day 7 p / q</th><th>Day 14 p / q</th></tr></thead>
           <tbody>${data.populations.map(population => {
             const values = timepointRow(population);
             return `<tr><td><strong>${names(population)}</strong></td><td>${values[0]}</td><td>${values[1]}</td><td>${values[2]}</td></tr>`;
