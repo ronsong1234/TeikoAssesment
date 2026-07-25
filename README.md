@@ -6,7 +6,7 @@ non-responders, and examines the requested baseline melanoma subset.
 
 ## Dashboard
 
-[Open the interactive dashboard](https://loblaw-bio-cell-analysis.ronsong.chatgpt.site)
+[Open the interactive dashboard](https://ronsong1234.github.io/TeikoAssesment/)
 
 The dashboard includes:
 
