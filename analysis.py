@@ -56,7 +56,7 @@ def write_frequency_table(rows):
     """Save the complete frequency table as a CSV file."""
     columns = ("sample", "total_count", "population", "count", "percentage")
     with OUTPUT_PATH.open("w", newline="", encoding="utf-8") as output_file:
-        writer = csv.writer(output_file)
+        writer = csv.writer(output_file, lineterminator="\n")
         writer.writerow(columns)
         writer.writerows(tuple(row[column] for column in columns) for row in rows)
 

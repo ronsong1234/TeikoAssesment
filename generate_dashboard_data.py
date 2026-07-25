@@ -7,7 +7,9 @@ from pathlib import Path
 from statistical_analysis import (
     POPULATION_ORDER,
     box_statistics,
+    load_longitudinal_frequencies,
     load_subject_frequencies,
+    run_timepoint_tests,
     run_tests,
 )
 from subset_analysis import query_database
@@ -84,6 +86,9 @@ def get_sample_frequencies(connection):
 def get_response_analysis():
     grouped = load_subject_frequencies()
     results = run_tests(grouped)
+    timepoints, changes = load_longitudinal_frequencies()
+    timepoint_results = run_timepoint_tests(timepoints)
+    change_results = run_tests(changes)
 
     boxes = {}
     for population in POPULATION_ORDER:
@@ -121,7 +126,41 @@ def get_response_analysis():
                 "fdr_significant": result["significant_fdr_0_05"],
             }
         )
-    return {"boxes": boxes, "results": compact_results}
+    compact_timepoints = [
+        {
+            "population": result["population"],
+            "timepoint": result["timepoint"],
+            "responder_median": round(
+                result["responder_median_pct"], 4
+            ),
+            "nonresponder_median": round(
+                result["nonresponder_median_pct"], 4
+            ),
+            "p_value": result["p_value"],
+        }
+        for result in timepoint_results
+    ]
+    compact_changes = [
+        {
+            "population": result["population"],
+            "responder_median": round(
+                result["responder_median_pct"], 4
+            ),
+            "nonresponder_median": round(
+                result["nonresponder_median_pct"], 4
+            ),
+            "p_value": result["p_value"],
+            "q_value": result["fdr_q_value"],
+            "fdr_significant": result["significant_fdr_0_05"],
+        }
+        for result in change_results
+    ]
+    return {
+        "boxes": boxes,
+        "results": compact_results,
+        "timepoint_results": compact_timepoints,
+        "change_results": compact_changes,
+    }
 
 
 def get_baseline_subset():

@@ -11,6 +11,7 @@ pipeline:
 	$(PYTHON) statistical_analysis.py
 	$(PYTHON) subset_analysis.py
 	$(PYTHON) generate_dashboard_data.py
+	$(PYTHON) -m unittest -v test_pipeline.py
 
 dashboard:
 	$(PYTHON) -m http.server 8000 --directory dashboard

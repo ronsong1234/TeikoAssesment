@@ -121,6 +121,22 @@
       border-radius: 6px;
       font-weight: bold;
     }
+    .toolbar-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .toolbar button.secondary {
+      color: var(--teal-dark);
+      background: white;
+      border: 1px solid #b9cbc8;
+    }
+    .finding {
+      margin: 26px 0;
+      padding: 17px 20px;
+      background: #dcefeb;
+      border-left: 4px solid var(--teal);
+      border-radius: 5px;
+      line-height: 1.5;
+    }
+    .finding strong { display: block; margin-bottom: 3px; }
+    .subheading { margin: 38px 0 6px; font-size: 21px; }
     .sample-title {
       padding: 18px 22px;
       display: flex;
@@ -266,20 +282,23 @@
       content.innerHTML = `
         <div class="eyebrow">Part 2</div>
         <h2>Cell frequency explorer</h2>
-        <p class="intro">Review counts and relative frequencies for any sample.</p>
+        <p class="intro">Review counts and relative frequencies for any sample. Enter a full ID or a starting prefix.</p>
         <div class="toolbar">
           <label>Sample ID<input id="sample-query" value="sample00000"></label>
-          <button id="find-sample">Find sample</button>
+          <div class="toolbar-actions">
+            <button class="secondary" id="previous-sample">Previous</button>
+            <button id="find-sample">Find sample</button>
+            <button class="secondary" id="next-sample">Next</button>
+          </div>
         </div>
         <div id="sample-result"></div>`;
       const input = document.querySelector("#sample-query");
-      const show = () => {
-        const sample = data.samples.find(row => row[0].toLowerCase() === input.value.trim().toLowerCase());
+      let currentIndex = 0;
+      const showIndex = index => {
+        currentIndex = Math.max(0, Math.min(data.samples.length - 1, index));
+        const sample = data.samples[currentIndex];
+        input.value = sample[0];
         const result = document.querySelector("#sample-result");
-        if (!sample) {
-          result.innerHTML = `<p class="error">Sample not found.</p>`;
-          return;
-        }
         result.innerHTML = `
           <div class="sample-title"><strong>${sample[0]}</strong><span>${sample[1].toLocaleString()} total cells</span></div>
           <div class="frequencies">${data.populations.map((population, index) => `
@@ -289,9 +308,19 @@
               <strong>${sample[2][index][1].toFixed(2)}%</strong>
             </div>`).join("")}</div>`;
       };
-      document.querySelector("#find-sample").addEventListener("click", show);
-      input.addEventListener("keydown", event => { if (event.key === "Enter") show(); });
-      show();
+      const find = () => {
+        const query = input.value.trim().toLowerCase();
+        const exact = data.samples.findIndex(row => row[0].toLowerCase() === query);
+        const prefix = data.samples.findIndex(row => row[0].toLowerCase().startsWith(query));
+        const index = exact >= 0 ? exact : prefix;
+        if (index >= 0) showIndex(index);
+        else document.querySelector("#sample-result").innerHTML = `<p class="error">Sample not found.</p>`;
+      };
+      document.querySelector("#find-sample").addEventListener("click", find);
+      document.querySelector("#previous-sample").addEventListener("click", () => showIndex(currentIndex - 1));
+      document.querySelector("#next-sample").addEventListener("click", () => showIndex(currentIndex + 1));
+      input.addEventListener("keydown", event => { if (event.key === "Enter") find(); });
+      showIndex(0);
     }
 
     function boxplot() {
@@ -325,6 +354,12 @@
 
     function renderResponse() {
       const results = data.response_analysis.results;
+      const timepoints = data.response_analysis.timepoint_results;
+      const changes = data.response_analysis.change_results;
+      const timepointRow = population => {
+        const rows = timepoints.filter(row => row.population === population);
+        return [0, 7, 14].map(day => pvalue(rows.find(row => row.timepoint === day).p_value));
+      };
       content.innerHTML = `
         <div class="eyebrow">Part 3</div>
         <h2>Response analysis</h2>
@@ -340,7 +375,30 @@
             <td>${pvalue(row.p_value)}</td><td>${pvalue(row.q_value)}</td>
           </tr>`).join("")}</tbody>
         </table></div>
-        <p class="note">CD4 T cells are nominally significant (p=0.012) but not significant after FDR correction (q=0.062).</p>`;
+        <p class="note">CD4 T cells are nominally significant (p=0.012) but not significant after FDR correction (q=0.062).</p>
+
+        <h3 class="subheading">Longitudinal extension</h3>
+        <p class="intro">Separating the visits avoids mixing baseline and treatment-emergent effects. Baseline does not distinguish responders from non-responders.</p>
+        <div class="finding">
+          <strong>B-cell change is significant after FDR correction.</strong>
+          From day 0 to day 14, the responder median changes by -1.00 percentage point versus +0.15 in non-responders (p=0.006, q=0.031).
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Population</th><th>Day 0 p</th><th>Day 7 p</th><th>Day 14 p</th></tr></thead>
+          <tbody>${data.populations.map(population => {
+            const values = timepointRow(population);
+            return `<tr><td><strong>${names(population)}</strong></td><td>${values[0]}</td><td>${values[1]}</td><td>${values[2]}</td></tr>`;
+          }).join("")}</tbody>
+        </table></div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Day 14 - day 0</th><th>Responder median</th><th>Non-responder median</th><th>p-value</th><th>FDR q-value</th></tr></thead>
+          <tbody>${changes.map(row => `<tr>
+            <td><strong>${names(row.population)}</strong></td>
+            <td>${row.responder_median > 0 ? "+" : ""}${row.responder_median.toFixed(2)} pp</td>
+            <td>${row.nonresponder_median > 0 ? "+" : ""}${row.nonresponder_median.toFixed(2)} pp</td>
+            <td>${pvalue(row.p_value)}</td><td>${pvalue(row.q_value)}</td>
+          </tr>`).join("")}</tbody>
+        </table></div>`;
     }
 
     function renderBaseline() {

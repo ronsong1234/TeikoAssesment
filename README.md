@@ -38,11 +38,15 @@ The full pipeline runs these programs in order:
 2. `analysis.py` calculates the relative frequency of every cell population in
    every sample.
 3. `statistical_analysis.py` compares melanoma patients receiving miraclib who
-   responded with those who did not.
+   responded with those who did not, both overall and by study visit. It also
+   calculates each patient's change from day 0 to day 14.
 4. `subset_analysis.py` selects baseline melanoma PBMC samples from
    miraclib-treated patients.
 5. `generate_dashboard_data.py` prepares the compact JSON file consumed by the
    dashboard.
+6. `test_pipeline.py` checks database row counts, percentage totals,
+   statistical calculations, the longitudinal finding, and output line
+   endings.
 
 Every script resolves files relative to its own location, so the pipeline does
 not depend on the caller's current directory.
@@ -54,6 +58,7 @@ not depend on the caller's current directory.
 | `cell-count.db` | Populated SQLite database |
 | `cell_population_frequencies.csv` | Complete Part 2 frequency table |
 | `statistical_results.csv` | Part 3 test results and effect sizes |
+| `longitudinal_results.csv` | Per-timepoint and day-14-minus-day-0 results |
 | `responder_boxplots.svg` | Reproducible responder comparison plot |
 | `baseline_melanoma_pbmc_miraclib.csv` | Complete Part 4 baseline subset |
 | `dashboard/dashboard-data.json` | Data used by the dashboard |
@@ -112,6 +117,12 @@ be moved to PostgreSQL. At substantially larger analytical scale, the count
 table could also be exported to columnar storage or a warehouse while SQLite or
 PostgreSQL remains the source of truth.
 
+The current schema assumes one treatment and one response label per subject.
+A crossover trial or second-line therapy would need a `subject_treatments`
+table with treatment start and end dates. The non-negative integer timepoint
+also excludes screening visits before day 0; a production trial schema would
+allow signed timepoints or store scheduled visit identifiers separately.
+
 ## Statistical approach
 
 Part 3 includes only PBMC samples from melanoma patients receiving miraclib.
@@ -122,12 +133,33 @@ three independent patients.
 Responder and non-responder distributions are compared with a two-sided
 Mann-Whitney U test. Benjamini-Hochberg correction controls the false discovery
 rate across the five populations, and rank-biserial correlation is reported as
-an effect size.
+an effect size. The standard-library Mann-Whitney implementation includes
+average ranks for ties, tie-corrected variance, and continuity correction. A
+regression test covers a known ordered example.
 
 CD4 T cells have an unadjusted `p` value of 0.012, but the adjusted `q` value is
 0.062. The difference is therefore nominally significant but does not remain
 significant after multiple-testing correction. This is evidence of an
 association worth following up, not proof of predictive performance.
+
+The pooled result is kept as the literal answer to the requested comparison,
+but averaging all visits can hide treatment-emergent effects. The extension
+therefore compares groups separately at days 0, 7, and 14 and calculates each
+patient's day-14-minus-day-0 change.
+
+No population differs at baseline. Over 14 days, responders have a median
+B-cell change of -1.00 percentage point, compared with +0.15 in
+non-responders. This difference has `p = 0.0062` and remains significant after
+FDR correction (`q = 0.031`). This supports B-cell change as a tentative
+on-treatment response marker, not a pretreatment predictor.
+
+The five percentages sum to 100%, so they are compositional rather than
+independent: a decrease in one population mechanically increases the relative
+share of others. The separate tests with FDR correction are useful screening
+analyses, but a confirmatory study should include a compositional sensitivity
+analysis. Project may also represent a batch effect, and age and sex may
+confound response comparisons. These should be included as covariates or
+stratification factors before making predictive claims.
 
 ## Code structure
 
