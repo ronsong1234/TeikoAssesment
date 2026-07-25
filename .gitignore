@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+
+dashboard/node_modules/
+dashboard/dist/
+dashboard/.next/
+dashboard/.npm-cache/
+dashboard/.wrangler/
+
+cell-count.db.tmp
+dashboard-dev.*
+responder_boxplots*.png

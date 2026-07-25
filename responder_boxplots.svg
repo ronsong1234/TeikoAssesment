@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title description">
+<title id="title">Cell population frequencies by response</title>
+<desc id="description">Boxplots compare subject-average relative frequencies for miraclib responders and non-responders among melanoma patients with PBMC samples.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<g font-family="Arial, sans-serif" fill="#222222">
+<text x="85" y="32" font-size="22" font-weight="bold">PBMC cell frequencies in melanoma patients receiving miraclib</text>
+<text x="85" y="55" font-size="13" fill="#555555">Each observation is one patient’s mean across days 0, 7, and 14; q-values use Benjamini–Hochberg correction.</text>
+<line x1="85" y1="610.00" x2="1165" y2="610.00" stroke="#dddddd" stroke-width="1"/>
+<text x="73" y="614.00" text-anchor="end" font-size="12">0</text>
+<line x1="85" y1="491.11" x2="1165" y2="491.11" stroke="#dddddd" stroke-width="1"/>
+<text x="73" y="495.11" text-anchor="end" font-size="12">10</text>
+<line x1="85" y1="372.22" x2="1165" y2="372.22" stroke="#dddddd" stroke-width="1"/>
+<text x="73" y="376.22" text-anchor="end" font-size="12">20</text>
+<line x1="85" y1="253.33" x2="1165" y2="253.33" stroke="#dddddd" stroke-width="1"/>
+<text x="73" y="257.33" text-anchor="end" font-size="12">30</text>
+<line x1="85" y1="134.44" x2="1165" y2="134.44" stroke="#dddddd" stroke-width="1"/>
+<text x="73" y="138.44" text-anchor="end" font-size="12">40</text>
+<line x1="85" y1="75" x2="85" y2="610" stroke="#333333"/>
+<line x1="85" y1="610" x2="1165" y2="610" stroke="#333333"/>
+<text x="22" y="342.5" transform="rotate(-90 22 342.50)" text-anchor="middle" font-size="14">Relative frequency (%)</text>
+<text x="193.00" y="88" text-anchor="middle" font-size="11">p=0.346, q=0.432 (FDR ns)</text>
+<line x1="169.00" y1="438.87" x2="169.00" y2="477.41" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="169.00" y1="508.02" x2="169.00" y2="547.53" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="159.00" y1="438.87" x2="179.00" y2="438.87" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="159.00" y1="547.53" x2="179.00" y2="547.53" stroke="#2878b5" stroke-width="1.5"/>
+<rect x="152.00" y="477.41" width="34" height="30.61" fill="#2878b5" fill-opacity="0.28" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="152.00" y1="495.02" x2="186.00" y2="495.02" stroke="#2878b5" stroke-width="2.5"/>
+<circle cx="165.00" cy="424.85" r="1.8" fill="#2878b5" fill-opacity="0.55"/>
+<line x1="217.00" y1="436.63" x2="217.00" y2="478.28" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="217.00" y1="507.09" x2="217.00" y2="543.14" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="207.00" y1="436.63" x2="227.00" y2="436.63" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="207.00" y1="543.14" x2="227.00" y2="543.14" stroke="#e07a2d" stroke-width="1.5"/>
+<rect x="200.00" y="478.28" width="34" height="28.82" fill="#e07a2d" fill-opacity="0.28" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="200.00" y1="492.96" x2="234.00" y2="492.96" stroke="#e07a2d" stroke-width="2.5"/>
+<circle cx="213.00" cy="420.26" r="1.8" fill="#e07a2d" fill-opacity="0.55"/>
+<circle cx="215.00" cy="427.67" r="1.8" fill="#e07a2d" fill-opacity="0.55"/>
+<circle cx="217.00" cy="410.61" r="1.8" fill="#e07a2d" fill-opacity="0.55"/>
+<text x="193.00" y="638" text-anchor="middle" font-size="13">b cell</text>
+<text x="409.00" y="88" text-anchor="middle" font-size="11">p=0.622, q=0.622 (FDR ns)</text>
+<line x1="385.00" y1="229.97" x2="385.00" y2="291.96" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="385.00" y1="336.97" x2="385.00" y2="385.89" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="375.00" y1="229.97" x2="395.00" y2="229.97" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="375.00" y1="385.89" x2="395.00" y2="385.89" stroke="#2878b5" stroke-width="1.5"/>
+<rect x="368.00" y="291.96" width="34" height="45.00" fill="#2878b5" fill-opacity="0.28" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="368.00" y1="314.00" x2="402.00" y2="314.00" stroke="#2878b5" stroke-width="2.5"/>
+<circle cx="381.00" cy="215.81" r="1.8" fill="#2878b5" fill-opacity="0.55"/>
+<circle cx="383.00" cy="223.65" r="1.8" fill="#2878b5" fill-opacity="0.55"/>
+<line x1="433.00" y1="236.27" x2="433.00" y2="294.36" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="433.00" y1="333.41" x2="433.00" y2="380.08" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="423.00" y1="236.27" x2="443.00" y2="236.27" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="423.00" y1="380.08" x2="443.00" y2="380.08" stroke="#e07a2d" stroke-width="1.5"/>
+<rect x="416.00" y="294.36" width="34" height="39.05" fill="#e07a2d" fill-opacity="0.28" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="416.00" y1="312.66" x2="450.00" y2="312.66" stroke="#e07a2d" stroke-width="2.5"/>
+<circle cx="429.00" cy="211.39" r="1.8" fill="#e07a2d" fill-opacity="0.55"/>
+<circle cx="431.00" cy="217.06" r="1.8" fill="#e07a2d" fill-opacity="0.55"/>
+<circle cx="433.00" cy="406.98" r="1.8" fill="#e07a2d" fill-opacity="0.55"/>
+<text x="409.00" y="638" text-anchor="middle" font-size="13">cd8 t cell</text>
+<text x="625.00" y="88" text-anchor="middle" font-size="11">p=0.012, q=0.062 (FDR ns)</text>
+<line x1="601.00" y1="145.40" x2="601.00" y2="220.17" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="601.00" y1="272.30" x2="601.00" y2="338.29" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="591.00" y1="145.40" x2="611.00" y2="145.40" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="591.00" y1="338.29" x2="611.00" y2="338.29" stroke="#2878b5" stroke-width="1.5"/>
+<rect x="584.00" y="220.17" width="34" height="52.13" fill="#2878b5" fill-opacity="0.28" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="584.00" y1="250.84" x2="618.00" y2="250.84" stroke="#2878b5" stroke-width="2.5"/>
+<circle cx="597.00" cy="131.41" r="1.8" fill="#2878b5" fill-opacity="0.55"/>
+<line x1="649.00" y1="169.48" x2="649.00" y2="234.84" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="649.00" y1="278.89" x2="649.00" y2="324.98" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="639.00" y1="169.48" x2="659.00" y2="169.48" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="639.00" y1="324.98" x2="659.00" y2="324.98" stroke="#e07a2d" stroke-width="1.5"/>
+<rect x="632.00" y="234.84" width="34" height="44.05" fill="#e07a2d" fill-opacity="0.28" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="632.00" y1="255.44" x2="666.00" y2="255.44" stroke="#e07a2d" stroke-width="2.5"/>
+<circle cx="645.00" cy="359.12" r="1.8" fill="#e07a2d" fill-opacity="0.55"/>
+<circle cx="647.00" cy="161.54" r="1.8" fill="#e07a2d" fill-opacity="0.55"/>
+<text x="625.00" y="638" text-anchor="middle" font-size="13">cd4 t cell</text>
+<text x="841.00" y="88" text-anchor="middle" font-size="11">p=0.127, q=0.317 (FDR ns)</text>
+<line x1="817.00" y1="368.76" x2="817.00" y2="415.74" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="817.00" y1="451.55" x2="817.00" y2="496.66" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="807.00" y1="368.76" x2="827.00" y2="368.76" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="807.00" y1="496.66" x2="827.00" y2="496.66" stroke="#2878b5" stroke-width="1.5"/>
+<rect x="800.00" y="415.74" width="34" height="35.81" fill="#2878b5" fill-opacity="0.28" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="800.00" y1="434.76" x2="834.00" y2="434.76" stroke="#2878b5" stroke-width="2.5"/>
+<circle cx="813.00" cy="512.83" r="1.8" fill="#2878b5" fill-opacity="0.55"/>
+<circle cx="815.00" cy="328.98" r="1.8" fill="#2878b5" fill-opacity="0.55"/>
+<circle cx="817.00" cy="352.23" r="1.8" fill="#2878b5" fill-opacity="0.55"/>
+<line x1="865.00" y1="371.09" x2="865.00" y2="414.37" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="865.00" y1="446.12" x2="865.00" y2="484.52" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="855.00" y1="371.09" x2="875.00" y2="371.09" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="855.00" y1="484.52" x2="875.00" y2="484.52" stroke="#e07a2d" stroke-width="1.5"/>
+<rect x="848.00" y="414.37" width="34" height="31.75" fill="#e07a2d" fill-opacity="0.28" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="848.00" y1="432.14" x2="882.00" y2="432.14" stroke="#e07a2d" stroke-width="2.5"/>
+<circle cx="861.00" cy="496.29" r="1.8" fill="#e07a2d" fill-opacity="0.55"/>
+<circle cx="863.00" cy="497.13" r="1.8" fill="#e07a2d" fill-opacity="0.55"/>
+<circle cx="865.00" cy="356.44" r="1.8" fill="#e07a2d" fill-opacity="0.55"/>
+<text x="841.00" y="638" text-anchor="middle" font-size="13">nk cell</text>
+<text x="1057.00" y="88" text-anchor="middle" font-size="11">p=0.264, q=0.432 (FDR ns)</text>
+<line x1="1033.00" y1="286.75" x2="1033.00" y2="351.38" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="1033.00" y1="397.64" x2="1033.00" y2="458.39" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="1023.00" y1="286.75" x2="1043.00" y2="286.75" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="1023.00" y1="458.39" x2="1043.00" y2="458.39" stroke="#2878b5" stroke-width="1.5"/>
+<rect x="1016.00" y="351.38" width="34" height="46.27" fill="#2878b5" fill-opacity="0.28" stroke="#2878b5" stroke-width="1.5"/>
+<line x1="1016.00" y1="374.67" x2="1050.00" y2="374.67" stroke="#2878b5" stroke-width="2.5"/>
+<line x1="1081.00" y1="309.76" x2="1081.00" y2="354.77" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="1081.00" y1="389.40" x2="1081.00" y2="435.44" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="1071.00" y1="309.76" x2="1091.00" y2="309.76" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="1071.00" y1="435.44" x2="1091.00" y2="435.44" stroke="#e07a2d" stroke-width="1.5"/>
+<rect x="1064.00" y="354.77" width="34" height="34.63" fill="#e07a2d" fill-opacity="0.28" stroke="#e07a2d" stroke-width="1.5"/>
+<line x1="1064.00" y1="368.93" x2="1098.00" y2="368.93" stroke="#e07a2d" stroke-width="2.5"/>
+<text x="1057.00" y="638" text-anchor="middle" font-size="13">monocyte</text>
+<rect x="465.00" y="675" width="16" height="12" fill="#2878b5" fill-opacity="0.35" stroke="#2878b5"/>
+<text x="488.00" y="686" font-size="13">Responders</text>
+<rect x="610.00" y="675" width="16" height="12" fill="#e07a2d" fill-opacity="0.35" stroke="#e07a2d"/>
+<text x="633.00" y="686" font-size="13">Non-responders</text>
+</g>
+</svg>
