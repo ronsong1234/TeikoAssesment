@@ -24,11 +24,11 @@ make pipeline
 make dashboard
 ```
 
-`make dashboard` starts the development server on port 3000. Codespaces will
+`make dashboard` starts the dashboard server on port 8000. Codespaces will
 offer to open the forwarded port in a browser.
 
-The Python analysis uses only the standard library. Node dependencies are used
-for the interactive dashboard and are installed by `make setup`.
+The project uses only the Python standard library, so `make setup` does not
+download any packages.
 
 ## Pipeline
 
@@ -56,7 +56,7 @@ not depend on the caller's current directory.
 | `statistical_results.csv` | Part 3 test results and effect sizes |
 | `responder_boxplots.svg` | Reproducible responder comparison plot |
 | `baseline_melanoma_pbmc_miraclib.csv` | Complete Part 4 baseline subset |
-| `dashboard/public/dashboard-data.json` | Data used by the dashboard |
+| `dashboard/dashboard-data.json` | Data used by the dashboard |
 
 ## Database schema
 
@@ -136,6 +136,6 @@ subset analysis, and dashboard-data preparation in separate scripts. This
 makes each step easy to run and test on its own while the Makefile still
 provides a single reproducible pipeline.
 
-The dashboard lives in `dashboard/`. It reads generated JSON rather than
-connecting directly to SQLite, which keeps the deployed site read-only and
-allows the same dashboard to run locally or as a hosted site.
+The dashboard is a single `dashboard/index.html` file. It reads generated JSON
+rather than connecting directly to SQLite, which keeps the site read-only and
+avoids a separate web framework or build step.

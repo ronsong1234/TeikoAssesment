@@ -15,7 +15,7 @@ from subset_analysis import query_database
 
 ROOT_DIR = Path(__file__).resolve().parent
 DATABASE_PATH = ROOT_DIR / "cell-count.db"
-OUTPUT_PATH = ROOT_DIR / "dashboard" / "public" / "dashboard-data.json"
+OUTPUT_PATH = ROOT_DIR / "dashboard" / "dashboard-data.json"
 
 
 def get_overview(connection):

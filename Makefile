@@ -1,11 +1,9 @@
 PYTHON ?= python3
-NPM ?= npm
 
 .PHONY: setup pipeline dashboard
 
 setup:
-	$(PYTHON) -m pip install -r requirements.txt
-	$(NPM) --prefix dashboard ci --ignore-scripts --no-audit --no-fund
+	@echo "No external dependencies required."
 
 pipeline:
 	$(PYTHON) load_data.py
@@ -15,4 +13,4 @@ pipeline:
 	$(PYTHON) generate_dashboard_data.py
 
 dashboard:
-	$(NPM) --prefix dashboard run dev -- --host 0.0.0.0
+	$(PYTHON) -m http.server 8000 --directory dashboard

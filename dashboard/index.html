@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loblaw Bio | Immune Cell Analysis</title>
+  <style>
+    :root {
+      --ink: #172431;
+      --muted: #66747d;
+      --line: #dce4e7;
+      --paper: #fff;
+      --canvas: #f3f6f5;
+      --teal: #16796f;
+      --teal-dark: #0d544e;
+      --blue: #2878b5;
+      --orange: #d97a3a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    header {
+      padding: 18px max(24px, calc((100% - 1100px) / 2));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+    .mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--teal-dark);
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    header span:last-child { color: var(--muted); font-size: 12px; }
+    .hero {
+      padding: 50px max(24px, calc((100% - 1100px) / 2)) 38px;
+      color: white;
+      background: linear-gradient(120deg, #153d47, #0d5b55);
+    }
+    .hero h1 {
+      margin: 7px 0 10px;
+      font-size: clamp(32px, 5vw, 50px);
+      letter-spacing: -0.04em;
+    }
+    .hero p { margin: 0; color: #c6ddda; }
+    .eyebrow {
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .hero .eyebrow { color: #9ed7cf; }
+    .metrics { display: flex; flex-wrap: wrap; gap: 26px; margin-top: 28px; }
+    .metrics span { color: #bed4d1; font-size: 13px; }
+    .metrics strong { margin-right: 4px; color: white; font-size: 17px; }
+    nav {
+      padding: 0 max(24px, calc((100% - 1100px) / 2));
+      display: flex;
+      gap: 28px;
+      overflow-x: auto;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+    nav button {
+      padding: 17px 0 14px;
+      color: var(--muted);
+      background: none;
+      border: 0;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+    }
+    nav button.active {
+      color: var(--teal-dark);
+      border-bottom-color: var(--teal);
+      font-weight: bold;
+    }
+    main {
+      width: min(1100px, calc(100% - 40px));
+      min-height: 520px;
+      margin: auto;
+      padding: 42px 0 60px;
+    }
+    h2 { margin: 7px 0 8px; font-size: 28px; }
+    .intro { margin: 0 0 28px; color: var(--muted); line-height: 1.5; }
+    .toolbar {
+      margin-bottom: 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    label { display: grid; gap: 6px; color: var(--muted); font-size: 12px; font-weight: bold; }
+    input, select {
+      min-height: 40px;
+      padding: 8px 11px;
+      color: var(--ink);
+      background: white;
+      border: 1px solid #bcc9cd;
+      border-radius: 6px;
+    }
+    .toolbar button {
+      min-height: 40px;
+      padding: 8px 16px;
+      color: white;
+      background: var(--teal);
+      border: 0;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .sample-title {
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 9px 9px 0 0;
+    }
+    .sample-title span { color: var(--muted); }
+    .frequencies {
+      padding: 10px 22px;
+      background: white;
+      border: 1px solid var(--line);
+      border-top: 0;
+      border-radius: 0 0 9px 9px;
+    }
+    .frequency {
+      min-height: 70px;
+      display: grid;
+      grid-template-columns: 150px 1fr 75px;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 1px solid #edf1f2;
+    }
+    .frequency:last-child { border-bottom: 0; }
+    .bar { height: 12px; overflow: hidden; background: #e7efed; border-radius: 10px; }
+    .bar i { height: 100%; display: block; background: var(--teal); border-radius: 10px; }
+    .frequency > strong:last-child { text-align: right; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+    .card {
+      min-height: 105px;
+      padding: 18px;
+      display: grid;
+      align-content: space-between;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .card span { color: var(--muted); font-size: 12px; }
+    .card strong { font-size: 18px; line-height: 1.4; }
+    .chart {
+      padding: 15px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      overflow-x: auto;
+    }
+    .chart svg { width: 100%; min-width: 760px; height: auto; }
+    .chart text { fill: var(--muted); font-size: 11px; }
+    .gridline { stroke: #e1e7e9; }
+    .yes line, .yes rect { stroke: var(--blue); }
+    .yes rect { fill: #d5e7f3; }
+    .no line, .no rect { stroke: var(--orange); }
+    .no rect { fill: #f7e2d3; }
+    .box line, .box rect { stroke-width: 1.5; }
+    .box .median { stroke-width: 3; }
+    .legend { display: flex; justify-content: center; gap: 24px; color: var(--muted); font-size: 12px; }
+    .legend i { width: 13px; height: 10px; display: inline-block; margin-right: 6px; }
+    .legend .yes-key { background: #d5e7f3; border: 1px solid var(--blue); }
+    .legend .no-key { background: #f7e2d3; border: 1px solid var(--orange); }
+    .table-wrap {
+      margin-top: 22px;
+      overflow-x: auto;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 13px 15px; text-align: left; border-bottom: 1px solid #e9edef; white-space: nowrap; }
+    th { color: var(--muted); background: #f7f9f9; font-size: 11px; text-transform: uppercase; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .note { color: var(--muted); font-size: 12px; }
+    .error { color: #9b2f2f; }
+    @media (max-width: 720px) {
+      .cards { grid-template-columns: 1fr 1fr; }
+      .toolbar { align-items: stretch; flex-direction: column; }
+      .frequency { padding: 12px 0; grid-template-columns: 1fr 70px; gap: 9px; }
+      .frequency .bar { grid-column: 1 / -1; grid-row: 2; }
+    }
+    @media (max-width: 450px) {
+      .cards { grid-template-columns: 1fr; }
+      main { width: calc(100% - 28px); }
+    }
+  </style>
+</head>
+<body>
+  <header><span class="mark">LB</span><div><strong>Loblaw Bio</strong><br><span>Clinical analytics</span></div></header>
+  <section class="hero">
+    <div class="eyebrow">Miraclib clinical trial</div>
+    <h1>Immune cell population analysis</h1>
+    <p>Explore sample composition, treatment response, and the baseline melanoma cohort.</p>
+    <div class="metrics" id="metrics"></div>
+  </section>
+  <nav>
+    <button class="active" data-tab="frequencies">Sample frequencies</button>
+    <button data-tab="response">Response analysis</button>
+    <button data-tab="baseline">Baseline subset</button>
+  </nav>
+  <main id="content"><p>Loading trial data...</p></main>
+  <script>
+    let data;
+    let currentTab = "frequencies";
+    const content = document.querySelector("#content");
+    const names = value => value.replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
+    const pvalue = value => value < .001 ? "&lt;0.001" : value.toFixed(3);
+
+    fetch("dashboard-data.json")
+      .then(response => {
+        if (!response.ok) throw new Error("Dashboard data could not be loaded.");
+        return response.json();
+      })
+      .then(result => {
+        data = result;
+        document.querySelector("#metrics").innerHTML = `
+          <span><strong>${data.overview.samples.toLocaleString()}</strong> samples</span>
+          <span><strong>${data.overview.subjects.toLocaleString()}</strong> subjects</span>
+          <span><strong>${data.overview.projects}</strong> projects</span>
+          <span><strong>${data.overview.populations}</strong> populations</span>`;
+        render();
+      })
+      .catch(error => content.innerHTML = `<p class="error">${error.message}</p>`);
+
+    document.querySelectorAll("nav button").forEach(button => {
+      button.addEventListener("click", () => {
+        currentTab = button.dataset.tab;
+        document.querySelectorAll("nav button").forEach(item => item.classList.toggle("active", item === button));
+        render();
+      });
+    });
+
+    function render() {
+      if (currentTab === "frequencies") renderFrequencies();
+      if (currentTab === "response") renderResponse();
+      if (currentTab === "baseline") renderBaseline();
+    }
+
+    function renderFrequencies() {
+      content.innerHTML = `
+        <div class="eyebrow">Part 2</div>
+        <h2>Cell frequency explorer</h2>
+        <p class="intro">Review counts and relative frequencies for any sample.</p>
+        <div class="toolbar">
+          <label>Sample ID<input id="sample-query" value="sample00000"></label>
+          <button id="find-sample">Find sample</button>
+        </div>
+        <div id="sample-result"></div>`;
+      const input = document.querySelector("#sample-query");
+      const show = () => {
+        const sample = data.samples.find(row => row[0].toLowerCase() === input.value.trim().toLowerCase());
+        const result = document.querySelector("#sample-result");
+        if (!sample) {
+          result.innerHTML = `<p class="error">Sample not found.</p>`;
+          return;
+        }
+        result.innerHTML = `
+          <div class="sample-title"><strong>${sample[0]}</strong><span>${sample[1].toLocaleString()} total cells</span></div>
+          <div class="frequencies">${data.populations.map((population, index) => `
+            <div class="frequency">
+              <strong>${names(population)}</strong>
+              <div class="bar"><i style="width:${sample[2][index][1]}%"></i></div>
+              <strong>${sample[2][index][1].toFixed(2)}%</strong>
+            </div>`).join("")}</div>`;
+      };
+      document.querySelector("#find-sample").addEventListener("click", show);
+      input.addEventListener("keydown", event => { if (event.key === "Enter") show(); });
+      show();
+    }
+
+    function boxplot() {
+      const y = value => 280 - value / 45 * 220;
+      const width = 160;
+      let svg = `<svg viewBox="0 0 920 330" role="img" aria-label="Cell frequency boxplots by response">`;
+      [0,10,20,30,40].forEach(tick => {
+        svg += `<line class="gridline" x1="65" y1="${y(tick)}" x2="900" y2="${y(tick)}"/>
+          <text x="52" y="${y(tick)+4}" text-anchor="end">${tick}</text>`;
+      });
+      data.populations.forEach((population, index) => {
+        const center = 105 + index * width;
+        const result = data.response_analysis.results[index];
+        ["yes", "no"].forEach(response => {
+          const box = data.response_analysis.boxes[population][response];
+          const x = center + (response === "yes" ? -19 : 19);
+          svg += `<g class="box ${response}">
+            <line x1="${x}" y1="${y(box.upper)}" x2="${x}" y2="${y(box.q3)}"/>
+            <line x1="${x}" y1="${y(box.q1)}" x2="${x}" y2="${y(box.lower)}"/>
+            <line x1="${x-8}" y1="${y(box.upper)}" x2="${x+8}" y2="${y(box.upper)}"/>
+            <line x1="${x-8}" y1="${y(box.lower)}" x2="${x+8}" y2="${y(box.lower)}"/>
+            <rect x="${x-13}" y="${y(box.q3)}" width="26" height="${y(box.q1)-y(box.q3)}"/>
+            <line class="median" x1="${x-13}" y1="${y(box.median)}" x2="${x+13}" y2="${y(box.median)}"/>
+          </g>`;
+        });
+        svg += `<text x="${center}" y="315" text-anchor="middle">${names(population)}</text>
+          <text x="${center}" y="28" text-anchor="middle">p=${pvalue(result.p_value)} · q=${pvalue(result.q_value)}</text>`;
+      });
+      return svg + "</svg>";
+    }
+
+    function renderResponse() {
+      const results = data.response_analysis.results;
+      content.innerHTML = `
+        <div class="eyebrow">Part 3</div>
+        <h2>Response analysis</h2>
+        <p class="intro">Melanoma patients receiving miraclib, restricted to PBMC samples. Each observation is a patient mean across days 0, 7, and 14.</p>
+        <div class="chart">${boxplot()}<div class="legend"><span><i class="yes-key"></i>Responders</span><span><i class="no-key"></i>Non-responders</span></div></div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Population</th><th>Responder median</th><th>Non-responder median</th><th>Difference</th><th>p-value</th><th>FDR q-value</th></tr></thead>
+          <tbody>${results.map(row => `<tr>
+            <td><strong>${names(row.population)}</strong></td>
+            <td>${row.responder_median.toFixed(2)}%</td>
+            <td>${row.nonresponder_median.toFixed(2)}%</td>
+            <td>${row.difference > 0 ? "+" : ""}${row.difference.toFixed(2)} pp</td>
+            <td>${pvalue(row.p_value)}</td><td>${pvalue(row.q_value)}</td>
+          </tr>`).join("")}</tbody>
+        </table></div>
+        <p class="note">CD4 T cells are nominally significant (p=0.012) but not significant after FDR correction (q=0.062).</p>`;
+    }
+
+    function renderBaseline() {
+      const baseline = data.baseline;
+      content.innerHTML = `
+        <div class="eyebrow">Part 4</div>
+        <h2>Baseline subset</h2>
+        <p class="intro">Melanoma PBMC samples at day 0 from patients treated with miraclib.</p>
+        <div class="cards">
+          <div class="card"><span>Qualifying samples</span><strong>${baseline.total}</strong></div>
+          <div class="card"><span>Projects</span><strong>${Object.entries(baseline.projects).map(([key,value]) => `${key}: ${value}`).join(" · ")}</strong></div>
+          <div class="card"><span>Response</span><strong>${baseline.responses.yes} yes · ${baseline.responses.no} no</strong></div>
+          <div class="card"><span>Sex</span><strong>${baseline.sexes.F} female · ${baseline.sexes.M} male</strong></div>
+        </div>
+        <div class="toolbar">
+          <label>Search sample or subject<input id="baseline-query" placeholder="sample00000"></label>
+          <label>Project<select id="project-filter"><option value="">All projects</option>${Object.keys(baseline.projects).map(project => `<option>${project}</option>`).join("")}</select></label>
+        </div>
+        <div id="baseline-table"></div>`;
+      const update = () => {
+        const query = document.querySelector("#baseline-query").value.toLowerCase();
+        const project = document.querySelector("#project-filter").value;
+        const rows = baseline.samples.filter(row =>
+          (!project || row[0] === project) &&
+          (!query || row[1].toLowerCase().includes(query) || row[4].toLowerCase().includes(query))
+        ).slice(0, 100);
+        document.querySelector("#baseline-table").innerHTML = `
+          <div class="table-wrap"><table>
+            <thead><tr><th>Sample</th><th>Subject</th><th>Project</th><th>Response</th><th>Sex</th></tr></thead>
+            <tbody>${rows.map(row => `<tr><td><strong>${row[4]}</strong></td><td>${row[1]}</td><td>${row[0]}</td><td>${row[2] === "yes" ? "Responder" : "Non-responder"}</td><td>${row[3] === "F" ? "Female" : "Male"}</td></tr>`).join("")}</tbody>
+          </table></div><p class="note">Showing up to 100 matching rows.</p>`;
+      };
+      document.querySelector("#baseline-query").addEventListener("input", update);
+      document.querySelector("#project-filter").addEventListener("change", update);
+      update();
+    }
+  </script>
+</body>
+</html>
